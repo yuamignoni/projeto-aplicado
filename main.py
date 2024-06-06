@@ -19,74 +19,82 @@ class App:
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Treinamentos")
-        self.root.geometry("600x400")
+        self.root.geometry("800x600")
         self.current_user = None
         self.trainings = {}
 
+        self.style = ttk.Style()
+        self.style.configure("TLabel", font=("Arial", 12), padding=5)
+        self.style.configure("TButton", font=("Arial", 12), padding=5)
+        self.style.configure("TEntry", font=("Arial", 12), padding=5)
+        self.style.configure("TCombobox", font=("Arial", 12), padding=5)
+        self.style.configure("Treeview.Heading", font=("Arial", 12, "bold"))
+        self.style.configure("Treeview", font=("Arial", 12))
+
+        self.root.configure(bg='#f0f0f0')
         self.show_login_screen()
 
     def show_login_screen(self):
         self.clear_screen()
 
-        tk.Label(self.root, text="Usuário:").pack(pady=5)
-        self.username_entry = tk.Entry(self.root)
+        ttk.Label(self.root, text="Usuário:").pack(pady=5)
+        self.username_entry = ttk.Entry(self.root)
         self.username_entry.pack(pady=5)
 
-        tk.Label(self.root, text="Senha:").pack(pady=5)
-        self.password_entry = tk.Entry(self.root, show="*")
+        ttk.Label(self.root, text="Senha:").pack(pady=5)
+        self.password_entry = ttk.Entry(self.root, show="*")
         self.password_entry.pack(pady=5)
 
-        tk.Button(self.root, text="Login", command=self.login).pack(pady=10)
+        ttk.Button(self.root, text="Login", command=self.login).pack(pady=10)
 
     def show_main_screen(self):
         self.clear_screen()
-        tk.Label(self.root, text=f"Bem-vindo, {self.current_user}").pack(pady=10)
 
-        tk.Button(self.root, text="Gerenciar Funcionários", command=self.show_employee_management).pack(pady=5)
-        tk.Button(self.root, text="Gerenciar Treinamentos", command=self.show_training_management).pack(pady=5)
-        
+        ttk.Label(self.root, text=f"Bem-vindo, {self.current_user}", font=("Arial", 14, "bold")).pack(pady=10)
+
+        ttk.Button(self.root, text="Gerenciar Funcionários", command=self.show_employee_management).pack(pady=5)
+        ttk.Button(self.root, text="Gerenciar Treinamentos", command=self.show_training_management).pack(pady=5)
         if usuarios[self.current_user]["cargo"] == "Admin":
-            tk.Button(self.root, text="Cadastrar Usuário", command=self.show_register_user_screen).pack(pady=5)
-        tk.Button(self.root, text="Sair", command=self.show_login_screen).pack(pady=5)
-
+            ttk.Button(self.root, text="Cadastrar Usuário", command=self.show_register_user_screen).pack(pady=5)
+        ttk.Button(self.root, text="Sair", command=self.show_login_screen).pack(pady=5)
 
     def show_register_user_screen(self):
         self.clear_screen()
 
-        tk.Label(self.root, text="Novo Usuário:").pack(pady=5)
-        self.new_username_entry = tk.Entry(self.root)
+        ttk.Label(self.root, text="Novo Usuário:", font=("Arial", 14, "bold")).pack(pady=5)
+        ttk.Label(self.root, text="Usuário:").pack(pady=5)
+        self.new_username_entry = ttk.Entry(self.root)
         self.new_username_entry.pack(pady=5)
 
-        tk.Label(self.root, text="Senha:").pack(pady=5)
-        self.new_password_entry = tk.Entry(self.root, show="*")
+        ttk.Label(self.root, text="Senha:").pack(pady=5)
+        self.new_password_entry = ttk.Entry(self.root, show="*")
         self.new_password_entry.pack(pady=5)
 
-        tk.Label(self.root, text="Cargo:").pack(pady=5)
-        self.new_cargo_entry = tk.Entry(self.root)
+        ttk.Label(self.root, text="Cargo:").pack(pady=5)
+        self.new_cargo_entry = ttk.Entry(self.root)
         self.new_cargo_entry.pack(pady=5)
 
-        tk.Button(self.root, text="Cadastrar", command=self.register_user).pack(pady=10)
-        tk.Button(self.root, text="Voltar", command=self.show_main_screen).pack(pady=5)
+        ttk.Button(self.root, text="Cadastrar", command=self.register_user).pack(pady=10)
+        ttk.Button(self.root, text="Voltar ao Menu Principal", command=self.show_main_screen).pack(pady=5)
 
-        
     def show_employee_management(self):
         self.clear_screen()
 
-        tk.Label(self.root, text="Gerenciamento de Funcionários").grid(row=0, column=0, columnspan=2, pady=10)
+        ttk.Label(self.root, text="Gerenciamento de Funcionários", font=("Arial", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
 
-        tk.Label(self.root, text="Nome:").grid(row=1, column=0, padx=10, pady=10)
-        self.nome_entry = tk.Entry(self.root)
-        self.nome_entry.grid(row=1, column=1, padx=10, pady=10)
+        ttk.Label(self.root, text="Nome:").grid(row=1, column=0, padx=10, pady=10, sticky="e")
+        self.nome_entry = ttk.Entry(self.root)
+        self.nome_entry.grid(row=1, column=1, padx=10, pady=10, sticky="w")
 
-        tk.Label(self.root, text="Cargo:").grid(row=2, column=0, padx=10, pady=10)
-        self.cargo_entry = tk.Entry(self.root)
-        self.cargo_entry.grid(row=2, column=1, padx=10, pady=10)
+        ttk.Label(self.root, text="Cargo:").grid(row=2, column=0, padx=10, pady=10, sticky="e")
+        self.cargo_entry = ttk.Entry(self.root)
+        self.cargo_entry.grid(row=2, column=1, padx=10, pady=10, sticky="w")
 
-        tk.Label(self.root, text="ID do Funcionário:").grid(row=3, column=0, padx=10, pady=10)
-        self.id_entry = tk.Entry(self.root)
-        self.id_entry.grid(row=3, column=1, padx=10, pady=10)
+        ttk.Label(self.root, text="ID do Funcionário:").grid(row=3, column=0, padx=10, pady=10, sticky="e")
+        self.id_entry = ttk.Entry(self.root)
+        self.id_entry.grid(row=3, column=1, padx=10, pady=10, sticky="w")
 
-        tk.Button(self.root, text="Adicionar Funcionário", command=self.add_employee).grid(row=4, column=0, columnspan=2, pady=10)
+        ttk.Button(self.root, text="Adicionar Funcionário", command=self.add_employee).grid(row=4, column=0, columnspan=2, pady=10)
 
         self.tree = ttk.Treeview(self.root, columns=("Nome", "Cargo", "ID"), show='headings')
         self.tree.heading("Nome", text="Nome")
@@ -95,30 +103,30 @@ class App:
         self.tree.grid(row=5, column=0, columnspan=2, pady=10)
         self.load_employees()
 
-        tk.Button(self.root, text="Voltar", command=self.show_main_screen).grid(row=6, column=0, columnspan=2, pady=10)
+        ttk.Button(self.root, text="Voltar ao Menu Principal", command=self.show_main_screen).grid(row=6, column=0, columnspan=2, pady=10)
 
     def show_training_management(self):
         self.clear_screen()
 
-        tk.Label(self.root, text="Selecionar Funcionário:").grid(row=0, column=0, padx=10, pady=10)
+        ttk.Label(self.root, text="Selecionar Funcionário:", font=("Arial", 14, "bold")).grid(row=0, column=0, padx=10, pady=10, sticky="e")
         self.funcionario_combobox = ttk.Combobox(self.root)
         self.funcionario_combobox['values'] = list(funcionarios.keys())
-        self.funcionario_combobox.grid(row=0, column=1, padx=10, pady=10)
+        self.funcionario_combobox.grid(row=0, column=1, padx=10, pady=10, sticky="w")
         self.funcionario_combobox.bind("<<ComboboxSelected>>", self.update_employee_info)
 
-        self.funcionario_info_label = tk.Label(self.root, text="")
+        self.funcionario_info_label = ttk.Label(self.root, text="")
         self.funcionario_info_label.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
 
-        tk.Label(self.root, text="Treinamento:").grid(row=2, column=0, padx=10, pady=10)
-        self.treinamento_entry = tk.Entry(self.root)
-        self.treinamento_entry.grid(row=2, column=1, padx=10, pady=10)
+        ttk.Label(self.root, text="Treinamento:").grid(row=2, column=0, padx=10, pady=10, sticky="e")
+        self.treinamento_entry = ttk.Entry(self.root)
+        self.treinamento_entry.grid(row=2, column=1, padx=10, pady=10, sticky="w")
 
-        tk.Label(self.root, text="Validade (dd/mm/yyyy):").grid(row=3, column=0, padx=10, pady=10)
-        self.validade_entry = tk.Entry(self.root)
-        self.validade_entry.grid(row=3, column=1, padx=10, pady=10)
+        ttk.Label(self.root, text="Validade (dd/mm/yyyy):").grid(row=3, column=0, padx=10, pady=10, sticky="e")
+        self.validade_entry = ttk.Entry(self.root)
+        self.validade_entry.grid(row=3, column=1, padx=10, pady=10, sticky="w")
 
-        tk.Button(self.root, text="Adicionar/Atualizar Treinamento", command=self.add_update_training).grid(row=4, column=0, columnspan=2, pady=10)
-        tk.Button(self.root, text="Deletar Treinamento", command=self.delete_training).grid(row=5, column=0, columnspan=2, pady=10)
+        ttk.Button(self.root, text="Adicionar/Atualizar Treinamento", command=self.add_update_training).grid(row=4, column=0, columnspan=2, pady=10)
+        ttk.Button(self.root, text="Deletar Treinamento", command=self.delete_training).grid(row=5, column=0, columnspan=2, pady=10)
 
         self.tree = ttk.Treeview(self.root, columns=("Treinamento", "Validade"), show='headings')
         self.tree.heading("Treinamento", text="Treinamento")
@@ -126,7 +134,7 @@ class App:
         self.tree.grid(row=6, column=0, columnspan=2, pady=10)
         self.tree.bind("<<TreeviewSelect>>", self.on_tree_select)
 
-        tk.Button(self.root, text="Voltar", command=self.show_main_screen).grid(row=7, column=0, columnspan=2, pady=10)
+        ttk.Button(self.root, text="Voltar ao Menu Principal", command=self.show_main_screen).grid(row=7, column=0, columnspan=2, pady=10)
 
     def login(self):
         username = self.username_entry.get()
@@ -157,7 +165,7 @@ class App:
         cargo = self.cargo_entry.get()
         emp_id = self.id_entry.get()
 
-        if not nome or not cargo or not emp_id:
+        if not nome or not cargo or emp_id == "":
             messagebox.showwarning("Entrada Inválida", "Todos os campos são obrigatórios.")
             return
 
